@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss";
+
+body {
+  background-color: #09011F; /* your hex code */
+  font-family: 'IBM Plex Sans', sans-serif;
+}
