@@ -1,5 +1,7 @@
+import React from 'react';
 import weaponData from "./output.json";
 import SliderTable from "./SliderTable";
+import RefinementSlider from "./RefinementSlider";
 
 function calc_atk(level: number, w: any): number {
   const levelData = w.Level[level];
@@ -32,11 +34,11 @@ export default function WeaponPage() {
   const iconUrl = `https://api.hakush.in/zzz/UI/${weapon.CodeName}.webp`;
 
   return (
-    // Added flex layout to root: Row on large screens, Column on mobile
+    // Flex layout: Row on large screens (lg), Column on mobile
     <div className="p-6 text-white flex flex-col lg:flex-row gap-12 justify-center items-start">
       
       {/* Left Column: Image and Info */}
-      <div className="flex-1">
+      <div className="flex-1 w-full max-w-3xl">
         {/* Weapon Image */}
         <img
           src={iconUrl}
@@ -47,8 +49,20 @@ export default function WeaponPage() {
         {/* Weapon Info */}
         <div className="w-full">
           <h1 className="text-4xl font-bold mb-2">{weapon.Name}</h1>
-          <p className="mb-4">{weapon.Desc2}</p>
-          <p className="whitespace-pre-line">{weapon.Desc}</p>
+          <p className="mb-4 text-gray-300">{weapon.Desc2}</p>
+          
+          {/* Main Description */}
+          <div className="whitespace-pre-line mb-8 text-gray-400 text-lg">
+             <div dangerouslySetInnerHTML={{ 
+               __html: weapon.Desc.replace(/\n/g, '<br/>')
+                                  .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1">$2</span>') 
+             }} />
+          </div>
+
+          {/* New Refinements Component Added Here */}
+          {weapon.Talents && (
+            <RefinementSlider talents={weapon.Talents} />
+          )}
         </div>
       </div>
 

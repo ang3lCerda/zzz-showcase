@@ -21,6 +21,11 @@ export default function Navbar() {
               W-Engines
             </Link>
           </li>
+          <li>
+            <Link to="/equipment" className="hover:text-blue-400 transition-colors">
+              Drive Discs
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
