@@ -62,12 +62,12 @@ export default function Equipment() {
             <div className="flex-1 space-y-2">
               <h2 className="text-xl font-bold text-white">{item.EN.name}</h2>
               
-              <div className="text-[2rem] leading-relaxed text-gray-300">
+              <div className="leading-relaxed text-gray-300">
                 <span className="text-gray-400 font-semibold">2-Pc: </span>
                 {formatDescription(item.EN.desc2)}
               </div>
 
-              <div className="text-[2rem] leading-relaxed text-gray-300">
+              <div className="leading-relaxed text-gray-300">
                 <span className="text-gray-400 font-semibold">4-Pc: </span>
                 {formatDescription(item.EN.desc4)}
               </div>
