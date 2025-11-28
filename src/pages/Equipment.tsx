@@ -1,9 +1,6 @@
 import React from 'react';
-// 1. Import the JSON file directly. 
-// Ensure 'suits_english.json' is in the same folder as this component.
 import diskSetsDats from './disk-sets-english.json';
 
-// Helper function to parse the custom color tags from the JSON
 const formatDescription = (text) => {
   if (!text) return "";
   const parts = text.split(/(<color=#[0-9A-Fa-f]{6}>.*?<\/color>)/g);
@@ -24,7 +21,6 @@ const formatDescription = (text) => {
 };
 
 export default function Equipment() {
-  // 2. Convert the imported JSON object into an array of [id, item] pairs
   const allSuits = Object.entries(diskSetsDats);
 
   return (
@@ -34,7 +30,7 @@ export default function Equipment() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
         {allSuits.map(([id, item]) => (
           <div key={id} className="flex items-start gap-5">
-            {/* Icon Column */}
+        
             <div className="flex-shrink-0">
               <div className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800 relative">
             
