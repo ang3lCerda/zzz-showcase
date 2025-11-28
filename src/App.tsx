@@ -9,18 +9,24 @@ import Characters from "./pages/Characters";
 import WEngines from "./pages/WEngines";
 import Equipment from "./pages/Equipment";
 
-const router = createBrowserRouter([
+// Set basename to match your GitHub Pages repo path
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "characters", element: <Characters /> },
+        { path: "w-engines", element: <WEngines /> },
+        { path: "equipment", element: <Equipment /> },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: "characters", element: <Characters /> },
-      { path: "w-engines", element: <WEngines /> },
-      { path: "equipment", element: <Equipment /> },
-    ],
-  },
-]);
+    basename: "/zzz-showcase", // <-- add this
+  }
+);
 
 export default function App() {
   return <RouterProvider router={router} />;
