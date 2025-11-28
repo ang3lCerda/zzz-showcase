@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import character_data from "./character.json";
 import CharacterSliderTable from "./CharacterSliderTable";
 

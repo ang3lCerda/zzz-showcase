@@ -10,7 +10,6 @@ interface SliderTableProps {
 
 export default function SliderTable({
   maxLevel,
-  data,
   weapon,
   calcAtk,
   calcSecStat,

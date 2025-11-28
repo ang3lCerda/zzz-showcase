@@ -1,4 +1,3 @@
-import React from 'react';
 import weaponData from "./output.json";
 import SliderTable from "./SliderTable";
 import RefinementSlider from "./RefinementSlider";
