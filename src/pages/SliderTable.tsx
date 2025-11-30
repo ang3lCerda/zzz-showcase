@@ -60,22 +60,23 @@ export default function SliderTable({
           <span className="font-medium">Rarity</span>
           <span className="font-semibold">{getRarity(weapon.Rarity)}</span>
         </div>
-    
-      <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
-        <span className="font-medium">Type</span>
-        <span className="font-semibold">{Object.values(weapon.WeaponType)[0]}</span>
-      </div>
 
-      <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
-        <span className="font-medium">Base ATK</span>
-        <span className="font-semibold">{calcAtk(level, weapon)}</span>
-      </div>
+        <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
+          <span className="font-medium">Type</span>
+          <span className="font-semibold">{String(Object.values(weapon.WeaponType)[0])}</span>
+        </div>
 
-      <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
-        <span className="font-medium">Secondary Stat</span>
-        <span className="font-semibold">{calcSecStat(level, weapon)}</span>
+
+        <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
+          <span className="font-medium">Base ATK</span>
+          <span className="font-semibold">{calcAtk(level, weapon)}</span>
+        </div>
+
+        <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
+          <span className="font-medium">Secondary Stat</span>
+          <span className="font-semibold">{calcSecStat(level, weapon)}</span>
+        </div>
       </div>
-    </div>
     </div >
   );
 }
