@@ -2,11 +2,21 @@ import { useState } from "react";
 
 interface SliderTableProps {
   maxLevel: number;
-  data: any; 
+  data: any;
   weapon: any; // full weapon object
   calcAtk: (level: number, weapon: any) => number;
   calcSecStat: (level: number, weapon: any) => number; // second stat
 }
+
+function getRarity(number: number): string {
+  if (number === 2) return "B";
+  else if (number === 3) return "A";
+  else if (number === 4) return "S";
+  else return "?"; // fallback
+}
+
+
+
 
 export default function SliderTable({
   maxLevel,
@@ -26,7 +36,7 @@ export default function SliderTable({
         </div>
       </div>
 
-    
+
       <div className="mb-8">
         <input
           id="levelSlider"
@@ -37,7 +47,7 @@ export default function SliderTable({
           onChange={(e) => setLevel(parseInt(e.target.value))}
           className="w-full h-2 bg-indigo-600 rounded-lg appearance-none cursor-pointer"
         />
-       
+
         <div className="flex justify-between text-sm text-gray-300 mt-2">
           {[0, 10, 20, 30, 40, 50, maxLevel].map((label) => (
             <span key={label}>{label}</span>
@@ -48,24 +58,24 @@ export default function SliderTable({
       <div className="space-y-4">
         <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
           <span className="font-medium">Rarity</span>
-          <span className="font-semibold">{weapon.Rarity }</span>
+          <span className="font-semibold">{getRarity(weapon.Rarity)}</span>
         </div>
+    
+      <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
+        <span className="font-medium">Type</span>
+        <span className="font-semibold">{Object.values(weapon.WeaponType)[0]}</span>
+      </div>
 
-        <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
-          <span className="font-medium">Type</span>
-          <span className="font-semibold">{weapon.Type}</span>
-        </div>
+      <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
+        <span className="font-medium">Base ATK</span>
+        <span className="font-semibold">{calcAtk(level, weapon)}</span>
+      </div>
 
-        <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
-          <span className="font-medium">Base ATK</span>
-          <span className="font-semibold">{calcAtk(level, weapon)}</span>
-        </div>
-
-        <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
-          <span className="font-medium">Secondary Stat</span>
-          <span className="font-semibold">{calcSecStat(level, weapon)}</span>
-        </div>
+      <div className="flex justify-between bg-indigo-950 p-4 rounded-md">
+        <span className="font-medium">Secondary Stat</span>
+        <span className="font-semibold">{calcSecStat(level, weapon)}</span>
       </div>
     </div>
+    </div >
   );
 }

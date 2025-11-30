@@ -14,21 +14,25 @@ for key, value in stats.items():
 
 # Function to calculate HP growth
 def calc_hp(level: int, stats: dict,data:dict) -> int:
-    base_hp = stats.get("HpMax", 0)
-    hp_growth = stats.get("HpGrowth", 0)
-    level_bonus= data["Level"][str(level)]["HpMax"]
-    print(level_bonus)
-
-    total_hp = base_hp + (level * hp_growth/1000) + level_bonus
-
+    char_level=  level*10
+    base_hp =  stats.get("Attack", 0)
+    hp_growth = stats.get("AttackGrowth", 0)
+    hp_growth=  hp_growth/10000
+    inner_part=  hp_growth*(char_level-1)
+    if level==6:
+        level=5
+    level_bonus= data["Level"][str(level+1)]["Attack"]
+    total_hp = base_hp+ inner_part+level_bonus
     return total_hp
+   
 
 max_level = 6
 
 print("\nHP Growth by Level:")
 for lvl in range(1, max_level + 1):
     hp = calc_hp(lvl, stats, lol)
-    print(f"Level {lvl}: HP = {hp}")
+    char_lvl=lvl*10
+    print(f"Level {lvl}: HP = {hp} Char= {char_lvl} ")
 
 
 with open("character-stats.json", "w", encoding="utf-8") as f:
