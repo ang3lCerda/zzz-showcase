@@ -39,8 +39,8 @@ export default function Equipment() {
   const allSuits: [string, DiskSetItem][] = Object.entries(diskSetsDats as DiskSetsData);
 
   return (
-    <div className="min-h-screen bg-[#0b0b15] p-8 text-white ">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12 ">
+    <div className="min-h-screen bg-[#0b0b15] p-8 text-white">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
         {allSuits.map(([id, item]) => (
           <div key={id} className="flex items-start gap-5">
             <div className="flex-shrink-0">
