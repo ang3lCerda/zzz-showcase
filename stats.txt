@@ -1,0 +1,10 @@
+Impact:12201
+CRIT Rate:20101
+Base ATK:12101
+Base Energy Regen:30501
+CRIT DMG: 21101
+Anomaly Proficiency:31201
+Anomaly Mastery:31401
+PEN Ratio:23101
+HP:11101
+

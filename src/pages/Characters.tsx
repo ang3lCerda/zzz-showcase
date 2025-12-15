@@ -40,9 +40,31 @@ const mock = {
   CRITRate: 5,
   CRITDMG: 15
 };
+interface CharacterData {
+  Rarity: number;
+  WeaponType: Record<string, string>;
+  ElementType: Record<string, string>;
+  HitType: Record<string, string>;
+  Camp: Record<string, string>;
+}
+
+export function getBasicValuesList(data: CharacterData): (number | string | null)[] {
+  return [
+    data.Rarity,
+    Object.values(data.WeaponType)[0] ?? null,
+    Object.values(data.ElementType)[0] ?? null,
+    Object.values(data.HitType)[0] ?? null,
+    Object.values(data.Camp)[0] ?? null,
+  ];
+}
+
+
 
 export default function Characters() {
   const character = character_data;
+  const values = getBasicValuesList(character); 
+  const stats = character.Stats ?? {};
+
   const [option, setOption] = useState<1 | 2 | 3>(1);
 
   const optionImages: Record<number, string> = {

@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Characters from "./pages/Characters";
 import WEngines from "./pages/WEngines";
 import Equipment from "./pages/Equipment";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter(
   [
@@ -16,15 +17,16 @@ const router = createBrowserRouter(
         { path: "characters", element: <Characters /> },
         { path: "w-engines", element: <WEngines /> },
         { path: "equipment", element: <Equipment /> },
-        // Catch-all route for unmatched URLs
+        { path: "login", element: <Login /> },   // ✅ login route
         { path: "*", element: <Navigate to="/" replace /> },
       ],
     },
   ],
   {
-    basename: "/zzz-showcase", // Your GitHub Pages repo path
+    basename: "/zzz-showcase",
   }
 );
+
 
 export default function App() {
   return <RouterProvider router={router} />;
