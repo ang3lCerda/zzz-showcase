@@ -1,13 +1,11 @@
-import weaponData from "./output.json";
+import { useEffect, useState } from "react";
 import SliderTable from "./SliderTable";
 import RefinementSlider from "./RefinementSlider";
 
 function calc_atk(level: number, w: any): number {
   const levelData = w.Level[level];
-  if (!levelData) {
-    console.warn(`Level ${level} not found in weapon data`);
-    return 0;
-  }
+  if (!levelData) return 0;
+
   let starLvl = Math.floor(level / 10);
   if (starLvl > 5) starLvl = 5;
 
@@ -29,44 +27,75 @@ function calc_secstat(level: number, w: any): number {
 }
 
 export default function WeaponPage() {
-  const weapon = weaponData;
+  const [weapon, setWeapon] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchWeapon() {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/weapon/70");
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch weapon");
+        }
+
+        const data = await res.json();
+        setWeapon(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchWeapon();
+  }, []);
+
+  if (loading) {
+    return <div className="p-6 text-white">Loading weapon…</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-400">Error: {error}</div>;
+  }
+
   const iconUrl = `https://api.hakush.in/zzz/UI/${weapon.CodeName}.webp`;
 
   return (
-    // Flex layout: Row on large screens (lg), Column on mobile
     <div className="p-6 text-white flex flex-col lg:flex-row gap-12 justify-center items-start">
       
-      {/* Left Column: Image and Info */}
+      {/* Left Column */}
       <div className="flex-1 w-full max-w-3xl">
-        {/* Weapon Image */}
         <img
-          src={iconUrl}
+          src={weapon.Icon}
           alt={weapon.Name}
           className="w-96 h-auto object-contain rounded-lg mb-6"
         />
 
-        {/* Weapon Info */}
         <div className="w-full">
           <h1 className="text-4xl font-bold mb-2">{weapon.Name}</h1>
           <p className="mb-4 text-gray-300">{weapon.Desc2}</p>
-          
-          {/* Main Description */}
+
           <div className="whitespace-pre-line mb-8 text-gray-400 text-lg">
-             <div dangerouslySetInnerHTML={{ 
-               __html: weapon.Desc.replace(/\n/g, '<br/>')
-                                  .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1">$2</span>') 
-             }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: weapon.Desc.replace(/\n/g, "<br/>")
+                  .replace(
+                    /<color=(.*?)>(.*?)<\/color>/g,
+                    '<span style="color:$1">$2</span>'
+                  ),
+              }}
+            />
           </div>
 
-          {/* New Refinements Component Added Here */}
           {weapon.Talents && (
             <RefinementSlider talents={weapon.Talents} />
           )}
         </div>
       </div>
 
-      {/* Right Column: Slider Table */}
-      {/* Centered horizontally in the right column, sticky on scroll */}
+      {/* Right Column */}
       <div className="w-full lg:w-auto flex justify-center lg:sticky lg:top-6 flex-shrink-0">
         <SliderTable
           maxLevel={Object.keys(weapon.Level).length - 1}

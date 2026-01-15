@@ -6,6 +6,7 @@ import Characters from "./pages/Characters";
 import WEngines from "./pages/WEngines";
 import Equipment from "./pages/Equipment";
 import Login from "./pages/Login";
+import DiscDetailPage from "./pages/DiscsDetails";
 
 const router = createBrowserRouter(
   [
@@ -17,8 +18,10 @@ const router = createBrowserRouter(
         { path: "characters", element: <Characters /> },
         { path: "w-engines", element: <WEngines /> },
         { path: "equipment", element: <Equipment /> },
-        { path: "login", element: <Login /> },   // ✅ login route
+        { path: "disc", element: <DiscDetailPage /> },
+        { path: "login", element: <Login /> },   
         { path: "*", element: <Navigate to="/" replace /> },
+
       ],
     },
   ],
