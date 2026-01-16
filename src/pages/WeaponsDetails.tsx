@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import SliderTable from "./SliderTable";
 import RefinementSlider from "./RefinementSlider";
+import { useParams } from "react-router-dom";
+
 
 function calc_atk(level: number, w: any): number {
   const levelData = w.Level[level];
@@ -26,15 +28,17 @@ function calc_secstat(level: number, w: any): number {
   return Math.floor(baseSec * (1 + randRate / 10000));
 }
 
-export default function WeaponPage() {
+export default function WeaponDetailPage() {
   const [weapon, setWeapon] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+    const { id } = useParams<{ id: string }>(); 
+
 
   useEffect(() => {
     async function fetchWeapon() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/weapon/70");
+        const res = await fetch(`http://127.0.0.1:8000/weapon/${id}`);
 
         if (!res.ok) {
           throw new Error("Failed to fetch weapon");
@@ -60,7 +64,6 @@ export default function WeaponPage() {
     return <div className="p-6 text-red-400">Error: {error}</div>;
   }
 
-  const iconUrl = `https://api.hakush.in/zzz/UI/${weapon.CodeName}.webp`;
 
   return (
     <div className="p-6 text-white flex flex-col lg:flex-row gap-12 justify-center items-start">

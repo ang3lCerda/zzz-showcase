@@ -3,10 +3,11 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import Layout from "./Layout";
 import Home from "./pages/Home";
 import Characters from "./pages/Characters";
-import WEngines from "./pages/WEngines";
+import WEngines from "./pages/WeaponsDetails";
 import Equipment from "./pages/Equipment";
 import Login from "./pages/Login";
 import DiscDetailPage from "./pages/DiscsDetails";
+import WeaponPage from "./pages/Weapons";
 
 const router = createBrowserRouter(
   [
@@ -16,9 +17,10 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <Home /> },
         { path: "characters", element: <Characters /> },
-        { path: "w-engines", element: <WEngines /> },
-        { path: "equipment", element: <Equipment /> },
-        { path: "disc", element: <DiscDetailPage /> },
+        { path: "weapons", element: <WeaponPage /> },
+        { path: "weapon/:id", element: <WEngines /> },
+        { path: "disc", element: <Equipment /> },
+        { path: "disc/:id", element: <DiscDetailPage /> },
         { path: "login", element: <Login /> },   
         { path: "*", element: <Navigate to="/" replace /> },
 

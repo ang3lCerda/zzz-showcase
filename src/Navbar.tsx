@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  // TEMP auth state
-  const user = null; // { username: "Angel" }
+  const user = null;
 
   return (
     <nav className="bg-[#100233] text-white px-6 py-4 shadow-md">
@@ -21,12 +20,12 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/w-engines" className="hover:text-blue-400 transition-colors">
+            <Link to="/weapons" className="hover:text-blue-400 transition-colors">
               W-Engines
             </Link>
           </li>
           <li>
-            <Link to="/equipment" className="hover:text-blue-400 transition-colors">
+            <Link to="/disc" className="hover:text-blue-400 transition-colors">
               Drive Discs
             </Link>
           </li>
@@ -36,7 +35,7 @@ export default function Navbar() {
         <div className="ml-auto">
           {user ? (
             <span className="font-semibold text-indigo-300">
-              {user.username}
+             
             </span>
           ) : (
             <Link

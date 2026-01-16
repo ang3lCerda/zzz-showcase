@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 interface DriveDisc {
   Id: number;
@@ -65,7 +67,7 @@ export default function Equipment() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
         {allSuits.map(([id, disc]) => (
           <div key={id} className="flex items-start gap-5">
-            <div className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800">
+            < Link to={`/disc/${id}`}  className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800">
               <img
                 src={disc.Icon}
                 alt={disc.Name}
@@ -74,10 +76,10 @@ export default function Equipment() {
                   e.currentTarget.style.display = "none";
                 }}
               />
-            </div>
+            </Link>
 
             <div className="flex-1 space-y-2">
-              <h2 className="text-xl font-bold">{disc.Name}</h2>
+              <Link to={`/disc/${id}`}className="text-xl font-bold hover:underline hover:text-gray-300">{disc.Name}</Link>
 
               <div className="text-gray-300">
                 <span className="font-semibold text-gray-400">2-Pc: </span>
