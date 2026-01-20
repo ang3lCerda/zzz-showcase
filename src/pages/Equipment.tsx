@@ -67,7 +67,7 @@ export default function Equipment() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
         {allSuits.map(([id, disc]) => (
           <div key={id} className="flex items-start gap-5">
-            < Link to={`/disc/${id}`}  className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800">
+            < Link to={`/disc/${disc.Id}`}  className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800">
               <img
                 src={disc.Icon}
                 alt={disc.Name}

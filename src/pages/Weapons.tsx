@@ -60,12 +60,12 @@ export default function WeaponPage() {
 
   return (
     <div className="min-h-screen p-8 bg-[#0b0b15] text-white">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 ">
         {allWeapons.map(([id, weapon]) => (
           <Link
             key={id}
-            to={`/weapon/${id}`}
-            className="flex flex-col items-center gap-2 hover:scale-105 transition-transform duration-200"
+            to={`/weapon/${weapon.Id}`}
+            className="flex flex-col items-center gap-2 hover:scale-105 transition-transform duration-200 bg-indigo-950 rounded-lg "
           >
             <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden flex justify-center items-center">
               <img
