@@ -65,9 +65,16 @@ export default function WeaponPage() {
           <Link
             key={id}
             to={`/weapon/${weapon.Id}`}
-            className="flex flex-col items-center gap-2 hover:scale-105 transition-transform duration-200 bg-indigo-950 rounded-lg "
+            className="relative flex flex-col items-center gap-2 hover:scale-105 transition-transform duration-200 bg-indigo-950 rounded-lg p-4"
           >
             <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden flex justify-center items-center">
+              <img
+              src={`https://api.hakush.in/zzz/UI/Icon${
+                Object.values(weapon.WeaponType)[0]
+              }.webp`}
+              alt={Object.values(weapon.WeaponType)[0]}
+              className="absolute top-2 left-2 w-10 h-1o object-contain z-10"
+            />
               <img
                 src={weapon.Icon}
                 alt={weapon.Name}
@@ -78,7 +85,9 @@ export default function WeaponPage() {
               />
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-xl font-bold text-center">{weapon.Name}</span>
+              <span className="text-xl font-bold text-center">
+                {weapon.Name}
+              </span>
               <span className="text-lg text-center">
                 {WeaponType[weapon.WeaponType as keyof typeof WeaponType]}
               </span>

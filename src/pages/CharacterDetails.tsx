@@ -39,7 +39,7 @@ const mock = {
   CRITDMG: 15
 };
 
-export default function Characters() {
+export default function Character() {
   const { id } = useParams<{ id: string }>(); 
   const [character, setCharacter] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -93,6 +93,8 @@ export default function Characters() {
                 alt={Object.values(character.ElementType)[0] as string}
                 className="h-6 w-6"
               />
+
+              
             </div>
           </div>
         </div>
