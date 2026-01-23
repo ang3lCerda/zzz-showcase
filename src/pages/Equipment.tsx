@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import SearchBar from "../SearchBar"; // Make sure this path is correct
+import { Link, useParams } from "react-router-dom";
+import SearchBar from "../SearchBar";
 
 interface DriveDisc {
   Id: number;
@@ -8,10 +8,6 @@ interface DriveDisc {
   Desc2: string;
   Desc4: string;
   Icon: string;
-}
-
-interface DriveDiscResponse {
-  [key: string]: DriveDisc;
 }
 
 const formatDescription = (text?: string) => {
@@ -34,20 +30,25 @@ const formatDescription = (text?: string) => {
 };
 
 export default function Equipment() {
-  const [discs, setDiscs] = useState<DriveDiscResponse | null>(null);
-  const [filteredDiscs, setFilteredDiscs] = useState<DriveDiscResponse | null>(null);
+  const { id: routeId } = useParams(); // Detects URL changes for navigation
+  const [allDiscs, setAllDiscs] = useState<DriveDisc[]>([]);
+  const [displayDiscs, setDisplayDiscs] = useState<DriveDisc[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchDiscs() {
       try {
+        setLoading(true);
         const res = await fetch("http://127.0.0.1:8000/disc");
         if (!res.ok) throw new Error("Failed to fetch drive discs");
 
-        const data: DriveDiscResponse = await res.json();
-        setDiscs(data);
-        setFilteredDiscs(data); // initialize filtered state
+        const data = await res.json();
+        // Convert dictionary response to array for consistent searching and rendering
+        const discArray = Object.values(data) as DriveDisc[];
+        
+        setAllDiscs(discArray);
+        setDisplayDiscs(discArray);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -56,13 +57,10 @@ export default function Equipment() {
     }
 
     fetchDiscs();
-  }, []);
+  }, [routeId]); // Re-run when the URL changes
 
   if (loading) return <div className="text-white p-8">Loading…</div>;
   if (error) return <div className="text-red-400 p-8">{error}</div>;
-  if (!discs) return null;
-
-  const allSuits = filteredDiscs ? Object.entries(filteredDiscs) : [];
 
   return (
     <div className="min-h-screen bg-[#0b0b15] p-8 text-white">
@@ -70,25 +68,20 @@ export default function Equipment() {
       <div className="flex justify-center mb-8">
         <div className="w-[28rem]">
           <SearchBar
-            data={Object.values(discs)}
+            data={allDiscs}
             field="Name"
-            onResults={(results) => {
-              // convert back to DriveDiscResponse keyed by Id
-              const keyed: DriveDiscResponse = {};
-              results.forEach((disc) => (keyed[disc.Id] = disc));
-              setFilteredDiscs(keyed);
-            }}
+            onResults={setDisplayDiscs}
             placeholder="Search Drive Discs..."
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
-        {allSuits.map(([id, disc]) => (
-          <div key={id} className="flex items-start gap-5">
+        {displayDiscs.map((disc) => (
+          <div key={disc.Id} className="flex items-start gap-5">
             <Link
               to={`/disc/${disc.Id}`}
-              className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800"
+              className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800 shrink-0"
             >
               <img
                 src={disc.Icon}
@@ -102,7 +95,7 @@ export default function Equipment() {
 
             <div className="flex-1 space-y-2">
               <Link
-                to={`/disc/${id}`}
+                to={`/disc/${disc.Id}`}
                 className="text-xl font-bold hover:underline hover:text-gray-300"
               >
                 {disc.Name}
