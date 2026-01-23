@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Character from "./CharacterDetails";
+import SearchBar from "../SearchBar";
 
 interface Character {
   Id: number;
@@ -35,6 +35,9 @@ interface CharacterResponse {
 
 export default function CharacterPage() {
   const [characters, setCharacters] = useState<CharacterResponse | null>(null);
+  const [filteredCharacters, setFilteredCharacters] = useState<
+    [string, Character][] | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -61,11 +64,28 @@ export default function CharacterPage() {
   if (!characters) return null;
 
   const allCharacters = Object.entries(characters);
+  const displayCharacters = filteredCharacters ?? allCharacters;
 
   return (
-    <div className="min-h-screen p-8 bg-[#0b0b15] text-white">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 ">
-        {allCharacters.map(([id, character]) => (
+    <div className="min-h-screen p-8 bg-[#0b0b15] text-white ">
+      <div className="mb-8 flex justify-center">
+        <div className="w-[28rem] max-w-full mx-auto">
+          <SearchBar
+            data={allCharacters.map(([_, character]) => character)}
+            field="Name"
+            placeholder="Search characters..."
+            onResults={(results) => {
+              const resultIds = new Set(results.map((c) => c.Id));
+              setFilteredCharacters(
+                allCharacters.filter(([_, c]) => resultIds.has(c.Id))
+              );
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+        {displayCharacters.map(([id, character]) => (
           <Link
             key={id}
             to={`/character/${character.Id}`}
@@ -76,14 +96,15 @@ export default function CharacterPage() {
                 Object.values(character.ElementType)[0]
               }.webp`}
               alt={Object.values(character.ElementType)[0]}
-              className="absolute top-2 left-2 lg:w-12 h-12 w-8 h-8 object-contain z-10"
+              className="absolute top-2 left-2 lg:w-12 w-8 h-8 object-contain z-10"
             />
+
             <img
               src={`https://api.hakush.in/zzz/UI/Icon${
                 Object.values(character.WeaponType)[0]
               }.webp`}
               alt={Object.values(character.WeaponType)[0]}
-              className="absolute bottom-2 left-2 lg:w-12 h-12  w-8 h-8 object-contain z-10"
+              className="absolute bottom-2 left-2 lg:w-12 w-8 h-8 object-contain z-10"
             />
 
             <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center overflow-hidden">
@@ -108,7 +129,7 @@ export default function CharacterPage() {
                   ]
                 }
               </span>
-              <span>{Rank[character.Rarity as keyof typeof Rank]} Rank </span>
+              <span>{Rank[character.Rarity as keyof typeof Rank]} Rank</span>
             </div>
           </Link>
         ))}

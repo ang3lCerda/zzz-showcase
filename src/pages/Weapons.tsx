@@ -60,7 +60,7 @@ export default function WeaponPage() {
 
   return (
     <div className="min-h-screen p-8 bg-[#0b0b15] text-white">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 ">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-12 ">
         {allWeapons.map(([id, weapon]) => (
           <Link
             key={id}

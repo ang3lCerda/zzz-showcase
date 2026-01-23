@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import SearchBar from "../SearchBar"; // Make sure this path is correct
 
 interface DriveDisc {
   Id: number;
@@ -35,6 +35,7 @@ const formatDescription = (text?: string) => {
 
 export default function Equipment() {
   const [discs, setDiscs] = useState<DriveDiscResponse | null>(null);
+  const [filteredDiscs, setFilteredDiscs] = useState<DriveDiscResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,6 +47,7 @@ export default function Equipment() {
 
         const data: DriveDiscResponse = await res.json();
         setDiscs(data);
+        setFilteredDiscs(data); // initialize filtered state
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -60,14 +62,34 @@ export default function Equipment() {
   if (error) return <div className="text-red-400 p-8">{error}</div>;
   if (!discs) return null;
 
-  const allSuits = Object.entries(discs);
+  const allSuits = filteredDiscs ? Object.entries(filteredDiscs) : [];
 
   return (
     <div className="min-h-screen bg-[#0b0b15] p-8 text-white">
+      {/* Search bar centered */}
+      <div className="flex justify-center mb-8">
+        <div className="w-[28rem]">
+          <SearchBar
+            data={Object.values(discs)}
+            field="Name"
+            onResults={(results) => {
+              // convert back to DriveDiscResponse keyed by Id
+              const keyed: DriveDiscResponse = {};
+              results.forEach((disc) => (keyed[disc.Id] = disc));
+              setFilteredDiscs(keyed);
+            }}
+            placeholder="Search Drive Discs..."
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
         {allSuits.map(([id, disc]) => (
           <div key={id} className="flex items-start gap-5">
-            < Link to={`/disc/${disc.Id}`}  className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800">
+            <Link
+              to={`/disc/${disc.Id}`}
+              className="w-20 h-20 rounded-full border-2 border-[#b08b55] overflow-hidden bg-gray-800"
+            >
               <img
                 src={disc.Icon}
                 alt={disc.Name}
@@ -79,7 +101,12 @@ export default function Equipment() {
             </Link>
 
             <div className="flex-1 space-y-2">
-              <Link to={`/disc/${id}`}className="text-xl font-bold hover:underline hover:text-gray-300">{disc.Name}</Link>
+              <Link
+                to={`/disc/${id}`}
+                className="text-xl font-bold hover:underline hover:text-gray-300"
+              >
+                {disc.Name}
+              </Link>
 
               <div className="text-gray-300">
                 <span className="font-semibold text-gray-400">2-Pc: </span>
